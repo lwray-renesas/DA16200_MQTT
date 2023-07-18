@@ -30,8 +30,8 @@ char mqtt_broker_ssid[] = "[ADAFRUIT_USERNAME],";
 char mqtt_broker_pw[]   = "[ADAFRUIT_AIO_KEY]";
 char mqtt_client_id[]   = "DA16200-client";
 char at_cmd_end[]       = "\r\n";
-char at_topic_t[]         = ",wray2303/feeds/temperature";
-char at_topic_h[]         = ",wray2303/feeds/humidity";
+char at_topic_t[]         = ",[ADAFRUIT_USERNAME]/feeds/temperature";
+char at_topic_h[]         = ",[ADAFRUIT_USERNAME]/feeds/humidity";
 
 uint8_t     at_cmd_data[AT_CMD_LENGTH];
 uint32_t    part_array[3];
