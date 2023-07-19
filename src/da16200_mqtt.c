@@ -49,7 +49,7 @@ void main(void)
 	}
 
 	/* Configure Wi-Fi module to station mode and let it connect to AP */
-	write_string_to_display("Connecting\nWiFi...");
+	write_string_to_display("Connecting\n"WIFI_SSID"...");
 	err = wifi_con_routine();
 	if(FSP_SUCCESS != err)
 	{

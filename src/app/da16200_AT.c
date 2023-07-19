@@ -21,11 +21,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#define ADAFRUIT_USERNAME	""
-#define ADAFRUIT_AIO_KEY	""
-#define WIFI_SSID			""
-#define WIFI_PASSWORD		""
-
 char country[]          = "CH";
 char ap_ssid[]          = "'"WIFI_SSID"',";
 char ap_pw[]            = WIFI_PASSWORD;

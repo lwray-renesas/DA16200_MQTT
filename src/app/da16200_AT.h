@@ -23,6 +23,12 @@
 
 #include "hal.h"
 
+/** Configuration Macros for connection*/
+#define ADAFRUIT_USERNAME	""
+#define ADAFRUIT_AIO_KEY	""
+#define WIFI_SSID			""
+#define WIFI_PASSWORD		""
+
 /** Macros to define string length */
 #define DA16200_STR_LEN_8        (8U)       ///< Length 8
 #define DA16200_STR_LEN_16       (16U)      ///< Length 16
