@@ -18,17 +18,17 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name        : Config_PORT.c
-* Component Version: 1.4.0
+* File Name        : Config_DTC.c
+* Component Version: 1.3.0
 * Device(s)        : R7F100GGNxFB
-* Description      : This file implements device driver for Config_PORT.
+* Description      : This file implements device driver for Config_DTC.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
 #include "r_cg_userdefine.h"
-#include "Config_PORT.h"
+#include "Config_DTC.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 
@@ -43,74 +43,76 @@ Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
+#pragma address dtc_vectortable = 0x0FFD00U
+uint8_t __near dtc_vectortable[40U];
+
+#pragma address dtc_controldata_1 = 0x0FFD48U
+st_dtc_data_t __near dtc_controldata_1;
 
 /***********************************************************************************************************************
-* Function Name: R_Config_PORT_Create
-* Description  : This function initializes the port I/O.
+* Function Name: R_Config_DTC_Create
+* Description  : This function initializes the DTC module.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_Config_PORT_Create(void)
+void R_Config_DTC_Create(void)
 {
-    volatile uint16_t w_count;
+    /* Enable input clock supply */
+    DTCEN = 1U;
+    /* Disable all DTC channels operation */
+    DTCEN0 = 0x00U;
+    DTCEN1 = 0x00U;
+    DTCEN2 = 0x00U;
+    DTCEN3 = 0x00U;
+    DTCEN4 = 0x00U;
+    /* Set base address */
+    DTCBAR = 0xFDU;
+    /* Set DTCD1 */
+    dtc_vectortable[12U] = 0x48U;
+    dtc_controldata_1.dtccr = _00_DTC_DATA_SIZE_8BITS | _00_DTC_CHAIN_TRANSFER_DISABLE | _00_DTC_DEST_ADDR_FIXED | 
+                              _04_DTC_SOURCE_ADDR_INCREMENTED | _00_DTC_TRANSFER_MODE_NORMAL;
+    dtc_controldata_1.dtbls = _01_DTCD1_TRANSFER_BLOCKSIZE;
+    dtc_controldata_1.dtcct = _01_DTCD1_TRANSFER_BYTE;
+    dtc_controldata_1.dtrld = 0x00U;
+    dtc_controldata_1.dtsar = _0000_DTCD1_SRC_ADDRESS;
+    dtc_controldata_1.dtdar = _0000_DTCD1_DEST_ADDRESS;
 
-    CCDE = _00_P63_OUTPUT_CURRENT_OFF | _40_P62_OUTPUT_CURRENT_ON | _00_P61_OUTPUT_CURRENT_OFF | 
-           _00_P60_OUTPUT_CURRENT_OFF | _02_P17_OUTPUT_CURRENT_ON | _01_P16_OUTPUT_CURRENT_ON;
-
-    /* Wait for stable time (10us) */
-    for (w_count = 0U; w_count < PORT_STABLE_WAITTIME; w_count++)
-    {
-        NOP();
-    }
- 
-    CCS0 = _00_OUTPUT_CURRENT_HIZ;
-    CCS6 = _00_OUTPUT_CURRENT_HIZ;
-    /* Set PORT0 registers */
-    P0 = _00_Pn1_OUTPUT_0 | _00_Pn0_OUTPUT_0;
-    PDIDIS0 = _00_PDIDISn0_INPUT_BUFFER_ON;
-    POM0 = _00_POMn0_NCH_OFF;
-    PMCT0 = _00_PMCTn1_DIGITAL_ON | _00_PMCTn0_NOT_USE;
-    PMCE0 = _00_PMCEn1_DIGITAL_ON;
-    PM0 =  _FC_PM0_DEFAULT | _00_PMn1_MODE_OUTPUT | _01_PMn0_NOT_USE;
-    /* Set PORT1 registers */
-    P1 = _00_Pn7_OUTPUT_0 | _00_Pn6_OUTPUT_0 | _00_Pn5_OUTPUT_0 | _00_Pn4_OUTPUT_0 | _00_Pn3_OUTPUT_0 | 
-         _00_Pn2_OUTPUT_0 | _00_Pn1_OUTPUT_0 | _00_Pn0_OUTPUT_0;
-    PMCA1 = _F7_PMCA1_DEFAULT | _08_PMCAn3_NOT_USE;
-    PMCE1 = _00_PMCEn7_DIGITAL_ON | _00_PMCEn6_DIGITAL_ON | _00_PMCEn5_NOT_USE | _00_PMCEn4_NOT_USE | 
-            _00_PMCEn3_NOT_USE | _00_PMCEn2_NOT_USE | _00_PMCEn1_NOT_USE | _00_PMCEn0_NOT_USE;
-    PM1 = _00_PMn7_MODE_OUTPUT | _00_PMn6_MODE_OUTPUT | _20_PMn5_NOT_USE | _10_PMn4_NOT_USE | _08_PMn3_NOT_USE | 
-          _04_PMn2_NOT_USE | _02_PMn1_NOT_USE | _01_PMn0_NOT_USE;
-    /* Set PORT6 registers */
-    P6 = _00_Pn3_OUTPUT_0 | _00_Pn2_OUTPUT_0 | _00_Pn1_OUTPUT_0 | _00_Pn0_OUTPUT_0;
-    PMCE6 = _00_PMCEn1_NOT_USE | _00_PMCEn0_NOT_USE;
-    PM6 =  _F0_PM6_DEFAULT | _08_PMn3_NOT_USE | _00_PMn2_MODE_OUTPUT | _02_PMn1_NOT_USE | _01_PMn0_NOT_USE;
-    /* Set PORT7 registers */
-    P7 = _00_Pn5_OUTPUT_0 | _00_Pn4_OUTPUT_0 | _00_Pn3_OUTPUT_0 | _00_Pn2_OUTPUT_0 | _00_Pn1_OUTPUT_0 | 
-         _01_Pn0_OUTPUT_1;
-    PDIDIS7 = _00_PDIDISn4_INPUT_BUFFER_ON | _00_PDIDISn2_INPUT_BUFFER_ON | _00_PDIDISn1_INPUT_BUFFER_ON;
-    POM7 = _00_POMn4_NCH_OFF | _00_POMn2_NCH_OFF | _00_POMn1_NCH_OFF;
-    PMCT7 = _00_PMCTn5_NOT_USE | _00_PMCTn4_NOT_USE | _00_PMCTn3_NOT_USE | _00_PMCTn2_NOT_USE | _00_PMCTn1_NOT_USE | 
-            _00_PMCTn0_DIGITAL_ON;
-    PM7 = _C0_PM7_DEFAULT | _20_PMn5_NOT_USE | _10_PMn4_NOT_USE | _08_PMn3_NOT_USE | _04_PMn2_NOT_USE | 
-          _02_PMn1_NOT_USE | _00_PMn0_MODE_OUTPUT;
-    /* Set PORT14 registers */
-    P14 = _00_Pn7_OUTPUT_0 | _00_Pn6_OUTPUT_0 | _00_Pn0_OUTPUT_0;
-    PMCA14 = _7F_PMCA14_DEFAULT | _00_PMCAn7_DIGITAL_ON;
-    PM14 =  _3E_PM14_DEFAULT | _00_PMn7_MODE_OUTPUT | _00_PMn6_MODE_OUTPUT | _01_PMn0_NOT_USE;
-
-    R_Config_PORT_Create_UserInit();
+    R_Config_DTC_Create_UserInit();
 }
 
 /***********************************************************************************************************************
-* Function Name: R_Config_PORT_ReadPmnValues
-* Description  : This function specifies the value in the output latch for a port is read when the pin is in output mode.
+* Function Name: R_DTCD1_Start
+* Description  : This function starts DTCD1 module operation.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_Config_PORT_ReadPmnValues(void)
+void R_DTCD1_Start(void)
 {
-    PMS = _00_PMN_VALUES;
+    DTCEN1 |= _08_DTC_UART0T_ACTIVATION_ENABLE;
+}
+
+/***********************************************************************************************************************
+* Function Name: R_DTCD1_Stop
+* Description  : This function stops DTCD1 module operation.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_DTCD1_Stop(void)
+{
+    DTCEN1 &= (uint8_t)~_08_DTC_UART0T_ACTIVATION_ENABLE;
 }
 
 /* Start user code for adding. Do not edit comment generated here */
+
+void Start_dtc1(__near const uint8_t * src, __near uint8_t * dst, uint16_t cnt)
+{
+	dtc_controldata_1.dtbls = 1U;
+	dtc_controldata_1.dtcct = (cnt > 255U) ? 0U : (uint8_t)cnt;
+	dtc_controldata_1.dtsar = (uint16_t)src;
+	dtc_controldata_1.dtdar = (uint16_t)dst;
+
+	R_DTCD1_Start();
+}
+/* END OF FUNCTION*/
+
 /* End user code. Do not edit comment generated here */

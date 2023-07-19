@@ -3,10 +3,17 @@
 #include "sensor.h"
 #include <string.h>
 #include <stdio.h>
+#include "st7735s.h"
+#include "text.h"
+
+static const uint8_t COLOUR_BLACK[] = {0x00, 0x00};
+static const uint8_t COLOUR_WHITE[] = {0xFF, 0xFF};
+static ST7735S_display_area_info_t disp_info;
 
 static void mqtt_msg_send(void);
-static void try_read_mqtt_msg(void);
+static fsp_err_t try_read_mqtt_msg(void);
 static void demo_err(void);
+static void write_string_to_display(const char * const str);
 
 void main(void)
 {
@@ -20,7 +27,21 @@ void main(void)
 	/* Initialise the sensor*/
 	Sensor_init();
 
+	/* Enable display SPI*/
+	R_Config_CSI00_Start_app();
+
+	/* Initialse display*/
+	St7735s_init(COLOUR_WHITE);
+	St7735s_get_display_area_info(&disp_info);
+	Text_init(disp_info.xmax, disp_info.ymax);
+	Text_set_font(&default_font);
+	St7735s_wake_display();
+	St7735s_display_on();
+	St7735s_refresh();
+	CCS6 = 0x02U; /* 5mA backlight*/
+
 	/* Connect MCU with Wi-Fi module and initialize Wi-Fi module */
+	write_string_to_display("Connecting\nDA16200...");
 	err = wifi_con_init();
 	if(FSP_SUCCESS != err)
 	{
@@ -28,6 +49,7 @@ void main(void)
 	}
 
 	/* Configure Wi-Fi module to station mode and let it connect to AP */
+	write_string_to_display("Connecting\nWiFi...");
 	err = wifi_con_routine();
 	if(FSP_SUCCESS != err)
 	{
@@ -35,6 +57,7 @@ void main(void)
 	}
 
 	/* Configure Wi-Fi module to MQTT client function */
+	write_string_to_display("Connecting\nMQTT...");
 	err = mqtt_con_routine();
 	if(FSP_SUCCESS != err)
 	{
@@ -45,11 +68,13 @@ void main(void)
 
 	while(1)
 	{
-		try_read_mqtt_msg();
+		/* If we haven't received an LED toggle - send temperature and humidity update*/
+		if(FSP_SUCCESS != try_read_mqtt_msg())
+		{
+			Sensor_read();
 
-		Sensor_read();
-
-		mqtt_msg_send();
+			mqtt_msg_send();
+		}
 	}
 }
 
@@ -74,6 +99,7 @@ static void mqtt_msg_send(void)
 	part_array[1] = (uint32_t)at_topic_t;
 	part_array[2] = (uint32_t)at_cmd_end;
 	At_cmd_combine(DA16200_AT_CMD_INDEX_AT_NWMQMSG, part_array, 3);
+	write_string_to_display("Sending...\nTemperature");
 	err = AT_cmd_send_ok(DA16200_AT_CMD_INDEX_AT_NWMQMSG);
 	if(FSP_SUCCESS != err)
 	{
@@ -88,21 +114,27 @@ static void mqtt_msg_send(void)
 	part_array[1] = (uint32_t)at_topic_h;
 	part_array[2] = (uint32_t)at_cmd_end;
 	At_cmd_combine(DA16200_AT_CMD_INDEX_AT_NWMQMSG, part_array, 3);
+	write_string_to_display("Sending...\nHumidity");
 	err = AT_cmd_send_ok(DA16200_AT_CMD_INDEX_AT_NWMQMSG);
 	if(FSP_SUCCESS != err)
 	{
 		/* TODO: Handle Error*/
 	}
+
+	write_string_to_display("Done!");
 }
 /* END OF FUNCTION*/
 
-static void try_read_mqtt_msg(void)
+static fsp_err_t try_read_mqtt_msg(void)
 {
 	fsp_err_t status = FSP_ERR_ASSERTION;
 	uint16_t total_count = 0U;
 	static uint8_t mqtt_read_buf[512U] = {0U,};
 
 	memset(mqtt_read_buf, 0, 512);
+
+
+	write_string_to_display("MQTT Read...");
 
 	/* Start timeout timer*/
 	Hal_oneshot_start(4000U);
@@ -117,12 +149,15 @@ static void try_read_mqtt_msg(void)
 			if(STRING_EXIST == is_str_present((const char *)mqtt_read_buf, "led_toggle,1"))
 			{
 				CCS0 ^= 0x01U; /* Toggle LED*/
+				write_string_to_display("Success!");
+				R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 				status = FSP_SUCCESS;
 			}
 		}
 		else if(Hal_oneshot_elapsed())
 		{
 			/* If oneshot has elpased - timeout occurred*/
+			write_string_to_display("No Data!");
 			status = FSP_ERR_TIMEOUT;
 		}
 		else
@@ -138,9 +173,30 @@ static void try_read_mqtt_msg(void)
 
 static void demo_err(void)
 {
+	write_string_to_display("Fatal Error!");
+
 	while(1)
 	{
-		/* TODO: Blink LED*/
+		/* Infinite Hang...*/
 	}
+}
+/* END OF FUNCTION*/
+
+static void write_string_to_display(const char * const str)
+{
+	static char prev_string[128] = {0,};
+	static uint16_t str_len = 0U;
+
+	/* remove old string if necessary*/
+	if(str_len > 0U)
+	{
+		(void)Text_put_str(20U, 20U, prev_string, COLOUR_WHITE, COLOUR_WHITE);
+	}
+
+	str_len = Text_put_str(20U, 20U, str, COLOUR_BLACK, COLOUR_WHITE);
+
+	St7735s_refresh();
+
+	(void)strcpy(prev_string, str);
 }
 /* END OF FUNCTION*/

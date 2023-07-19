@@ -18,19 +18,19 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name        : Config_PORT.h
-* Component Version: 1.4.0
+* File Name        : Config_DTC.h
+* Component Version: 1.3.0
 * Device(s)        : R7F100GGNxFB
-* Description      : This file implements device driver for Config_PORT.
+* Description      : This file implements device driver for Config_DTC.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_cg_port.h"
+#include "r_cg_dtc.h"
 
-#ifndef CFG_Config_PORT_H
-#define CFG_Config_PORT_H
+#ifndef CFG_Config_DTC_H
+#define CFG_Config_DTC_H
 
 /***********************************************************************************************************************
 Macro definitions (Register bit)
@@ -39,25 +39,37 @@ Macro definitions (Register bit)
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
-#define _FC_PM0_DEFAULT                         (0xFCU)    /* PM0 default value */
-#define _F0_PM6_DEFAULT                         (0xF0U)    /* PM6 default value */
-#define _C0_PM7_DEFAULT                         (0xC0U)    /* PM7 default value */
-#define _3E_PM14_DEFAULT                        (0x3EU)    /* PM14 default value */
-#define _F7_PMCA1_DEFAULT                       (0xF7U)    /* PMCA1 default value */
-#define _7F_PMCA14_DEFAULT                      (0x7FU)    /* PMCA14 default value */
-#define PORT_STABLE_WAITTIME                    (26U)    /* wait for 10us as default,
-                                                         please change the waiting time value according to the system */
+#define _01_DTCD1_TRANSFER_BLOCKSIZE       (0x01U)    /* transfer block size */
+#define _01_DTCD1_TRANSFER_BYTE            (0x01U)    /* number of transfers */
+#define _0000_DTCD1_SRC_ADDRESS            (0x0000U)
+#define _0000_DTCD1_DEST_ADDRESS           (0x0000U)
 
 /***********************************************************************************************************************
 Typedef definitions
 ***********************************************************************************************************************/
+typedef struct
+{
+    uint8_t  dtccr;
+    uint8_t  dtbls;
+    uint8_t  dtcct;
+    uint8_t  dtrld;
+    uint16_t dtsar;
+    uint16_t dtdar;
+}st_dtc_data_t;
 
 /***********************************************************************************************************************
 Global functions
 ***********************************************************************************************************************/
-void R_Config_PORT_Create(void);
-void R_Config_PORT_ReadPmnValues(void);
-void R_Config_PORT_Create_UserInit(void);
+void R_Config_DTC_Create(void);
+void R_DTCD1_Start(void);
+void R_DTCD1_Stop(void);
+void R_Config_DTC_Create_UserInit(void);
 /* Start user code for function. Do not edit comment generated here */
+/** @brief Function to start the DTC running for spi operation.
+ * @param src - pointer to src data
+ * @param dst - pointer to destination
+ * @param cnt - number of bytes to transmit
+ */
+ void Start_dtc1(__near const uint8_t * src, __near uint8_t * dst, uint16_t cnt);
 /* End user code. Do not edit comment generated here */
 #endif

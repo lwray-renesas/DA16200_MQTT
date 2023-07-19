@@ -31,6 +31,7 @@ Includes
 #include "Config_INTC.h"
 #include "Config_PORT.h"
 #include "Config_IICA0.h"
+#include "Config_DTC.h"
 #include "Config_CSI00.h"
 #include "Config_TAU0_0.h"
 #include "Config_TAU0_5.h"
@@ -39,6 +40,7 @@ Includes
 #include "r_cg_uarta_common.h"
 #include "r_cg_tau_common.h"
 #include "r_cg_iica_common.h"
+#include "r_cg_dtc_common.h"
 #include "r_cg_userdefine.h"
 
 #ifndef SMC_ENTRY_H

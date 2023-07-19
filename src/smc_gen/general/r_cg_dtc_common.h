@@ -18,19 +18,14 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name        : Config_PORT.h
-* Component Version: 1.4.0
+* File Name        : r_cg_dtc_common.h
+* Version          : 1.0.13
 * Device(s)        : R7F100GGNxFB
-* Description      : This file implements device driver for Config_PORT.
+* Description      : Common header file for DTC peripheral.
 ***********************************************************************************************************************/
 
-/***********************************************************************************************************************
-Includes
-***********************************************************************************************************************/
-#include "r_cg_port.h"
-
-#ifndef CFG_Config_PORT_H
-#define CFG_Config_PORT_H
+#ifndef DTC_COMMON_H
+#define DTC_COMMON_H
 
 /***********************************************************************************************************************
 Macro definitions (Register bit)
@@ -39,14 +34,6 @@ Macro definitions (Register bit)
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
-#define _FC_PM0_DEFAULT                         (0xFCU)    /* PM0 default value */
-#define _F0_PM6_DEFAULT                         (0xF0U)    /* PM6 default value */
-#define _C0_PM7_DEFAULT                         (0xC0U)    /* PM7 default value */
-#define _3E_PM14_DEFAULT                        (0x3EU)    /* PM14 default value */
-#define _F7_PMCA1_DEFAULT                       (0xF7U)    /* PMCA1 default value */
-#define _7F_PMCA14_DEFAULT                      (0x7FU)    /* PMCA14 default value */
-#define PORT_STABLE_WAITTIME                    (26U)    /* wait for 10us as default,
-                                                         please change the waiting time value according to the system */
 
 /***********************************************************************************************************************
 Typedef definitions
@@ -55,9 +42,8 @@ Typedef definitions
 /***********************************************************************************************************************
 Global functions
 ***********************************************************************************************************************/
-void R_Config_PORT_Create(void);
-void R_Config_PORT_ReadPmnValues(void);
-void R_Config_PORT_Create_UserInit(void);
+void R_DTC_Set_PowerOn(void);
+void R_DTC_Set_PowerOff(void);
 /* Start user code for function. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #endif

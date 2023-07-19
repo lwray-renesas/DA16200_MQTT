@@ -12,6 +12,7 @@
         <Setting id="P72" value="TxDA0"/>
         <Setting id="P71" value="RxDA0"/>
         <Setting id="P60" value="SCLA0"/>
+        <Setting id="P62" value="CCD06"/>
         <Setting id="P40" value="TOOL0"/>
         <Setting id="P10" value="SCK00"/>
         <Setting id="P01" value="P01"/>
@@ -38,6 +39,7 @@
     <Segment id="Component">
         <Setting id="Config_TAU0_0" value="CG"/>
         <Setting id="Config_UARTA0" value="CG"/>
+        <Setting id="Config_DTC" value="CG"/>
         <Setting id="r_bsp" value=""/>
         <Setting id="Config_INTC" value="CG"/>
         <Setting id="Config_CSI00" value="CG"/>

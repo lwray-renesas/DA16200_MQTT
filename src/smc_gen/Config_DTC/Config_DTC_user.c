@@ -18,46 +18,42 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name        : Config_PORT.h
-* Component Version: 1.4.0
+* File Name        : Config_DTC_user.c
+* Component Version: 1.3.0
 * Device(s)        : R7F100GGNxFB
-* Description      : This file implements device driver for Config_PORT.
+* Description      : This file implements device driver for Config_DTC.
 ***********************************************************************************************************************/
-
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_cg_port.h"
-
-#ifndef CFG_Config_PORT_H
-#define CFG_Config_PORT_H
-
-/***********************************************************************************************************************
-Macro definitions (Register bit)
-***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-Macro definitions
-***********************************************************************************************************************/
-#define _FC_PM0_DEFAULT                         (0xFCU)    /* PM0 default value */
-#define _F0_PM6_DEFAULT                         (0xF0U)    /* PM6 default value */
-#define _C0_PM7_DEFAULT                         (0xC0U)    /* PM7 default value */
-#define _3E_PM14_DEFAULT                        (0x3EU)    /* PM14 default value */
-#define _F7_PMCA1_DEFAULT                       (0xF7U)    /* PMCA1 default value */
-#define _7F_PMCA14_DEFAULT                      (0x7FU)    /* PMCA14 default value */
-#define PORT_STABLE_WAITTIME                    (26U)    /* wait for 10us as default,
-                                                         please change the waiting time value according to the system */
-
-/***********************************************************************************************************************
-Typedef definitions
-***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-Global functions
-***********************************************************************************************************************/
-void R_Config_PORT_Create(void);
-void R_Config_PORT_ReadPmnValues(void);
-void R_Config_PORT_Create_UserInit(void);
-/* Start user code for function. Do not edit comment generated here */
+#include "r_cg_macrodriver.h"
+#include "r_cg_userdefine.h"
+#include "Config_DTC.h"
+/* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
-#endif
+
+/***********************************************************************************************************************
+Pragma directive
+***********************************************************************************************************************/
+/* Start user code for pragma. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+
+/***********************************************************************************************************************
+Global variables and functions
+***********************************************************************************************************************/
+/* Start user code for global. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+
+/***********************************************************************************************************************
+* Function Name: R_Config_DTC_Create_UserInit
+* Description  : This function adds user code after initializing the data transfer controller.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_Config_DTC_Create_UserInit(void)
+{
+    /* Start user code for user init. Do not edit comment generated here */
+    /* End user code. Do not edit comment generated here */
+}
+
+/* Start user code for adding. Do not edit comment generated here *//* End user code. Do not edit comment generated here */
