@@ -4,8 +4,9 @@
 #include <string.h>
 #include <stdio.h>
 
-static void demo_err(void);
 static void mqtt_msg_send(void);
+static void try_read_mqtt_msg(void);
+static void demo_err(void);
 
 void main(void)
 {
@@ -44,6 +45,8 @@ void main(void)
 
 	while(1)
 	{
+		try_read_mqtt_msg();
+
 		Sensor_read();
 
 		mqtt_msg_send();
@@ -90,9 +93,48 @@ static void mqtt_msg_send(void)
 	{
 		/* TODO: Handle Error*/
 	}
-
-	R_BSP_SoftwareDelay(4000, BSP_DELAY_MILLISECS);
 }
+/* END OF FUNCTION*/
+
+static void try_read_mqtt_msg(void)
+{
+	fsp_err_t status = FSP_ERR_ASSERTION;
+	uint16_t total_count = 0U;
+	static uint8_t mqtt_read_buf[512U] = {0U,};
+
+	memset(mqtt_read_buf, 0, 512);
+
+	/* Start timeout timer*/
+	Hal_oneshot_start(4000U);
+
+	do
+	{
+		/* If bytes are available*/
+		if(Hal_uart_rx_ready())
+		{
+			/* Check if success response is present*/
+			total_count += Hal_uart_read((char *)&mqtt_read_buf[total_count]);
+			if(STRING_EXIST == is_str_present((const char *)mqtt_read_buf, "led_toggle,1"))
+			{
+				CCS0 ^= 0x01U; /* Toggle LED*/
+				status = FSP_SUCCESS;
+			}
+		}
+		else if(Hal_oneshot_elapsed())
+		{
+			/* If oneshot has elpased - timeout occurred*/
+			status = FSP_ERR_TIMEOUT;
+		}
+		else
+		{
+			/* Do Nothing*/
+		}
+	}
+	while( (FSP_SUCCESS != status) && (FSP_ERR_TIMEOUT != status) );
+
+	return status;
+}
+/* END OF FUNCTION*/
 
 static void demo_err(void)
 {
@@ -101,3 +143,4 @@ static void demo_err(void)
 		/* TODO: Blink LED*/
 	}
 }
+/* END OF FUNCTION*/

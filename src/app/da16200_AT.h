@@ -84,7 +84,7 @@ typedef enum da16200_at_cmd_index
     DA16200_AT_CMD_INDEX_AT_NWMQCID,
     DA16200_AT_CMD_INDEX_AT_NWMQCL,
     DA16200_AT_CMD_INDEX_AT_NWMQMSG,
-    DA16200_AT_CMD_INDEX_AT_NWMQMSG_TEST,
+    DA16200_AT_CMD_INDEX_AT_NWMQTS,
 } da16200_at_cmd_index_t;
 
 /* External variable */
@@ -105,6 +105,7 @@ fsp_err_t wifi_con_init(void);
 fsp_err_t wifi_con_routine(void);
 fsp_err_t mqtt_con_routine(void);
 
+uint8_t is_str_present(const char * p_resp_str, const char * p_search_str);
 void At_cmd_combine(da16200_at_cmd_index_t cmd_index, uint32_t * part_ptr, uint8_t number);
 
 #endif /* DA16200_AT_H_ */

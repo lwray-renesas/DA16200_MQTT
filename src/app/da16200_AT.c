@@ -185,9 +185,9 @@ da16200_at_cmd_set_t g_da16200_cmd_set[] =
 				.retry = DA16200_RETRY_VALUE_5,
 				.retry_delay = DA16200_DELAY_1000MS
 		},
-		[ DA16200_AT_CMD_INDEX_AT_NWMQMSG_TEST] =
+		[ DA16200_AT_CMD_INDEX_AT_NWMQTS] =
 		{
-				.p_cmd = (uint8_t *) "AT+NWMQMSG=output,air_value\r\n",
+				.p_cmd = (uint8_t *) "AT+NWMQTS=1,"ADAFRUIT_USERNAME"/feeds/led_toggle\r\n",
 				.p_success_resp[0] = (uint8_t *) "OK",
 				.max_resp_length = DA16200_STR_LEN_64,
 				.retry = DA16200_RETRY_VALUE_5,
@@ -195,7 +195,6 @@ da16200_at_cmd_set_t g_da16200_cmd_set[] =
 		}
 };
 
-static uint8_t is_str_present(const char * p_resp_str, const char * p_search_str);
 static fsp_err_t wifi_serial_read(uint8_t * p_dest, const uint8_t * expected_resp0, const uint8_t * expected_resp1, uint32_t timeout_ms);
 static void wifi_serial_write(uint8_t * p_src, uint16_t bytes);
 static void DA16200_err(void);
@@ -402,6 +401,7 @@ fsp_err_t wifi_con_init(void)
 	{
 		DA16200_err();
 	}
+
 	return status;
 }
 
@@ -437,6 +437,12 @@ fsp_err_t wifi_con_routine(void)
 	}
 
 	status = AT_cmd_send_ok(DA16200_AT_CMD_INDEX_AT_WFMODE);
+	if(status != FSP_SUCCESS)
+	{
+		DA16200_err();
+	}
+
+	status = AT_cmd_send_ok(DA16200_AT_CMD_INDEX_AT_NWMQTS);
 	if(status != FSP_SUCCESS)
 	{
 		DA16200_err();
@@ -536,7 +542,7 @@ fsp_err_t mqtt_con_routine(void)
  * Parameters: p_resp_str, p_search_str
  * Return:     comparing result
  ************************************************************************************/
-static uint8_t is_str_present(const char * p_resp_str, const char * p_search_str)
+uint8_t is_str_present(const char * p_resp_str, const char * p_search_str)
 {
 	if (strstr(p_resp_str, p_search_str))
 	{
