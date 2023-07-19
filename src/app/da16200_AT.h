@@ -94,7 +94,6 @@ typedef enum da16200_at_cmd_index
 } da16200_at_cmd_index_t;
 
 /* External variable */
-extern uint16_t g_wifi_rcv_timeout_cnt;
 extern uint32_t part_array[];
 extern char at_cmd_end[];
 extern char at_topic_t[];
