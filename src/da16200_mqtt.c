@@ -48,6 +48,9 @@ void main(void)
 		demo_err();
 	}
 
+	write_string_to_display("Success!");
+	R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
+
 	/* Configure Wi-Fi module to station mode and let it connect to AP */
 	write_string_to_display("Connecting\n"WIFI_SSID"...");
 	err = wifi_con_routine();
@@ -56,6 +59,9 @@ void main(void)
 		demo_err();
 	}
 
+	write_string_to_display("Success!");
+	R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
+
 	/* Configure Wi-Fi module to MQTT client function */
 	write_string_to_display("Connecting\nMQTT...");
 	err = mqtt_con_routine();
@@ -63,6 +69,9 @@ void main(void)
 	{
 		demo_err();
 	}
+
+	write_string_to_display("Success!");
+	R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 
 	Sensor_read(); /* Dummy read to populate structs with data*/
 
@@ -103,7 +112,7 @@ static void mqtt_msg_send(void)
 	err = AT_cmd_send_ok(DA16200_AT_CMD_INDEX_AT_NWMQMSG);
 	if(FSP_SUCCESS != err)
 	{
-		write_string_to_display("Failed!");
+		write_string_to_display("Error!");
 		R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 	}
 
@@ -119,7 +128,7 @@ static void mqtt_msg_send(void)
 	err = AT_cmd_send_ok(DA16200_AT_CMD_INDEX_AT_NWMQMSG);
 	if(FSP_SUCCESS != err)
 	{
-		write_string_to_display("Failed!");
+		write_string_to_display("Error!");
 		R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 	}
 }
@@ -132,7 +141,6 @@ static fsp_err_t try_read_mqtt_msg(void)
 	static uint8_t mqtt_read_buf[512U] = {0U,};
 
 	memset(mqtt_read_buf, 0, 512);
-
 
 	write_string_to_display("MQTT Read...");
 
@@ -158,6 +166,7 @@ static fsp_err_t try_read_mqtt_msg(void)
 		{
 			/* If oneshot has elpased - timeout occurred*/
 			write_string_to_display("No Data!");
+			R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 			status = FSP_ERR_TIMEOUT;
 		}
 		else
