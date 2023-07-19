@@ -103,7 +103,8 @@ static void mqtt_msg_send(void)
 	err = AT_cmd_send_ok(DA16200_AT_CMD_INDEX_AT_NWMQMSG);
 	if(FSP_SUCCESS != err)
 	{
-		/* TODO: Handle Error*/
+		write_string_to_display("Failed!");
+		R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 	}
 
 	R_BSP_SoftwareDelay(100, BSP_DELAY_MILLISECS);
@@ -118,10 +119,9 @@ static void mqtt_msg_send(void)
 	err = AT_cmd_send_ok(DA16200_AT_CMD_INDEX_AT_NWMQMSG);
 	if(FSP_SUCCESS != err)
 	{
-		/* TODO: Handle Error*/
+		write_string_to_display("Failed!");
+		R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 	}
-
-	write_string_to_display("Done!");
 }
 /* END OF FUNCTION*/
 
