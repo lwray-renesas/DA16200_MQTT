@@ -52,7 +52,7 @@ void main(void)
 	R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 
 	/* Configure Wi-Fi module to station mode and let it connect to AP */
-	write_string_to_display("Connecting\n"WIFI_SSID"...");
+	write_string_to_display("Connecting\nWiFi...");
 	err = wifi_con_routine();
 	if(FSP_SUCCESS != err)
 	{
