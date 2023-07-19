@@ -18,34 +18,19 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name        : r_smc_entry.h
-* Version          : 1.0.13
+* File Name        : Config_PCLBUZ1.h
+* Component Version: 1.4.0
 * Device(s)        : R7F100GGNxFB
-* Description      : SMC platform header file..
+* Description      : This file implements device driver for Config_PCLBUZ1.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_cg_macrodriver.h"
-#include "Config_INTC.h"
-#include "Config_PORT.h"
-#include "Config_IICA0.h"
-#include "Config_DTC.h"
-#include "Config_PCLBUZ1.h"
-#include "Config_CSI00.h"
-#include "Config_TAU0_0.h"
-#include "Config_TAU0_5.h"
-#include "Config_UARTA0.h"
-#include "r_cg_sau_common.h"
-#include "r_cg_uarta_common.h"
-#include "r_cg_tau_common.h"
-#include "r_cg_iica_common.h"
-#include "r_cg_dtc_common.h"
-#include "r_cg_userdefine.h"
+#include "r_cg_pclbuz.h"
 
-#ifndef SMC_ENTRY_H
-#define SMC_ENTRY_H
+#ifndef CFG_Config_PCLBUZ1_H
+#define CFG_Config_PCLBUZ1_H
 
 /***********************************************************************************************************************
 Macro definitions (Register bit)
@@ -62,6 +47,10 @@ Typedef definitions
 /***********************************************************************************************************************
 Global functions
 ***********************************************************************************************************************/
+void R_Config_PCLBUZ1_Create(void);
+void R_Config_PCLBUZ1_Start(void);
+void R_Config_PCLBUZ1_Stop(void);
+void R_Config_PCLBUZ1_Create_UserInit(void);
 /* Start user code for function. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #endif

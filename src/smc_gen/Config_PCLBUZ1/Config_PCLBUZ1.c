@@ -18,51 +18,72 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name        : r_smc_entry.h
-* Version          : 1.0.13
+* File Name        : Config_PCLBUZ1.c
+* Component Version: 1.4.0
 * Device(s)        : R7F100GGNxFB
-* Description      : SMC platform header file..
+* Description      : This file implements device driver for Config_PCLBUZ1.
 ***********************************************************************************************************************/
-
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-#include "Config_INTC.h"
-#include "Config_PORT.h"
-#include "Config_IICA0.h"
-#include "Config_DTC.h"
-#include "Config_PCLBUZ1.h"
-#include "Config_CSI00.h"
-#include "Config_TAU0_0.h"
-#include "Config_TAU0_5.h"
-#include "Config_UARTA0.h"
-#include "r_cg_sau_common.h"
-#include "r_cg_uarta_common.h"
-#include "r_cg_tau_common.h"
-#include "r_cg_iica_common.h"
-#include "r_cg_dtc_common.h"
 #include "r_cg_userdefine.h"
-
-#ifndef SMC_ENTRY_H
-#define SMC_ENTRY_H
-
-/***********************************************************************************************************************
-Macro definitions (Register bit)
-***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-Macro definitions
-***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-Typedef definitions
-***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-Global functions
-***********************************************************************************************************************/
-/* Start user code for function. Do not edit comment generated here */
+#include "Config_PCLBUZ1.h"
+/* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
-#endif
 
+/***********************************************************************************************************************
+Pragma directive
+***********************************************************************************************************************/
+/* Start user code for pragma. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+
+/***********************************************************************************************************************
+Global variables and functions
+***********************************************************************************************************************/
+/* Start user code for global. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+
+/***********************************************************************************************************************
+* Function Name: R_Config_PCLBUZ1_Create
+* Description  : This function initializes the PCLBUZ1 module.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_Config_PCLBUZ1_Create(void)
+{
+    PCLOE1 = 0U;    /* disable PCLBUZ1 operation */
+    /* Set PCLBUZ1 pin */
+    POM1 &= 0xDFU;
+    PMCE1 &= 0xDFU;
+    P1 &= 0xDFU;
+    PM1 &= 0xDFU;
+    CKS1 = _0D_PCLBUZ_OUTCLK_FSXP5;
+
+    R_Config_PCLBUZ1_Create_UserInit();
+}
+
+/***********************************************************************************************************************
+* Function Name: R_Config_PCLBUZ1_Start
+* Description  : This function starts the PCLBUZ1 module.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_Config_PCLBUZ1_Start(void)
+{
+    PCLOE1 = 1U;    /* enable PCLBUZ1 operation */
+}
+
+/***********************************************************************************************************************
+* Function Name: R_Config_PCLBUZ1_Stop
+* Description  : This function stops the PCLBUZ1 module.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_Config_PCLBUZ1_Stop(void)
+{
+    PCLOE1 = 0U;    /* disable PCLBUZ1 operation */
+}
+
+/* Start user code for adding. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */

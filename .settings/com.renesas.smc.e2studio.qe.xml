@@ -20,6 +20,7 @@
         <Setting id="P12" value="SO00"/>
         <Setting id="P13" value="P13"/>
         <Setting id="P16" value="CCD00"/>
+        <Setting id="P15" value="PCLBUZ1"/>
         <Setting id="P17" value="CCD01"/>
     </Segment>
     <Segment id="Device">
@@ -46,6 +47,7 @@
         <Setting id="Config_INTC" value="CG"/>
         <Setting id="Config_CSI00" value="CG"/>
         <Setting id="Config_PORT" value="CG"/>
+        <Setting id="Config_PCLBUZ1" value="CG"/>
         <Setting id="Config_TAU0_5" value="CG"/>
         <Setting id="Config_IICA0" value="CG"/>
         <Setting id="r_comms_i2c" value=""/>

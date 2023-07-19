@@ -32,6 +32,7 @@ Includes
 #include "Config_PORT.h"
 #include "Config_IICA0.h"
 #include "Config_DTC.h"
+#include "Config_PCLBUZ1.h"
 #include "r_cg_sau_common.h"
 #include "r_cg_uarta_common.h"
 #include "r_cg_tau_common.h"
@@ -70,4 +71,5 @@ void R_Systeminit(void)
     R_Config_INTC_Create();
     R_Config_IICA0_Create();
     R_Config_DTC_Create();
+    R_Config_PCLBUZ1_Create();
 }

@@ -227,6 +227,7 @@
         <pinItem allocation="23" comments="" direction="O" id="P146" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="34" comments="" direction="O" id="P01" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="19" comments="" direction="O" id="P13" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="17" comments="" direction="None" id="PCLBUZ1" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="2" comments="" direction="None" id="SDAA0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="9" comments="" direction="None" id="TxDA0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="3" comments="" direction="IO" id="CCD06" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
@@ -2622,6 +2623,37 @@
             </allocatable>
             <component description="This software component provides configurations for DTC to perform data transfers." detailDescription="" display="Data Transfer Controller" id="com.renesas.smc.tools.swcomponent.codegenerator.rl78.dtc" version="1.3.0"/>
             <allocator channelLevel0="" channelLevel1="" channelLevel2="" channelLevel3="" channelLevel4="" channelLevel5="" description="DTC" display="DTC" id="com.renesas.smc.tools.swcomponent.codegenerator.rl78.dtc.dtcd0" type="DTC">
+                <context/>
+            </allocator>
+            <source description="Code generator components provide peripheral drivers with customized generated source geared towards small code size" display="Code Generator" id="com.renesas.smc.tools.swcomponent.codegenerator.source"/>
+        </configuration>
+        <configuration apiMode="FULL_API" id="667c8eeb-aae8-458e-baf8-e4aeff595c9a" inuse="true" name="Config_PCLBUZ1">
+            <allocatable id="PCLBUZ1">
+                <isocket id="vddRangeMode" selection="Clock.tool_clock_vddRangeMode" value="hsmainmode"/>
+                <isocket id="evddRange" selection="Clock.tool_clock_evddRange" value="1.8~5.5"/>
+                <isocket id="fSXP" selection="Clock.tool_clock_fSXL" value="32768.0"/>
+                <isocket id="fMAIN" selection="Clock.tool_clock_fMAIN" value="3.2E7"/>
+                <option enabled="true" id="OutputClock" selection="FSXP5">
+                    <item id="FMAIN0" input="" vlaue="0"/>
+                    <item id="FMAIN1" input="" vlaue="0"/>
+                    <item id="FMAIN2" input="" vlaue="0"/>
+                    <item id="FMAIN3" input="" vlaue="0"/>
+                    <item id="FMAIN4" input="" vlaue="0"/>
+                    <item id="FMAIN5" input="" vlaue="0"/>
+                    <item id="FMAIN6" input="" vlaue="0"/>
+                    <item id="FMAIN7" input="" vlaue="0"/>
+                    <item id="FSXP0" input="" vlaue="0"/>
+                    <item id="FSXP1" input="" vlaue="0"/>
+                    <item id="FSXP2" input="" vlaue="0"/>
+                    <item id="FSXP3" input="" vlaue="0"/>
+                    <item id="FSXP4" input="" vlaue="0"/>
+                    <item id="FSXP5" input="" vlaue="0"/>
+                    <item id="FSXP6" input="" vlaue="0"/>
+                    <item id="FSXP7" input="" vlaue="0"/>
+                </option>
+            </allocatable>
+            <component description="The clock output controller is intended for clock output for supply to peripheral ICs. Buzzer output is a function to output a square wave of buzzer frequency." detailDescription="" display="Clock Output /Buzzer Output Controller" id="com.renesas.smc.tools.swcomponent.codegenerator.rl78.pclbuz" version="1.4.0"/>
+            <allocator channelLevel0="1" channelLevel1="" channelLevel2="" channelLevel3="" channelLevel4="" channelLevel5="" description="PCLBUZ1 clock output/buzzer output controller" display="PCLBUZ1" id="com.renesas.smc.tools.swcomponent.codegenerator.rl78.comparator.pclbuz1" type="">
                 <context/>
             </allocator>
             <source description="Code generator components provide peripheral drivers with customized generated source geared towards small code size" display="Code Generator" id="com.renesas.smc.tools.swcomponent.codegenerator.source"/>

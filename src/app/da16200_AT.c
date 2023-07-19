@@ -182,7 +182,7 @@ da16200_at_cmd_set_t g_da16200_cmd_set[] =
 		},
 		[ DA16200_AT_CMD_INDEX_AT_NWMQTS] =
 		{
-				.p_cmd = (uint8_t *) "AT+NWMQTS=1,"ADAFRUIT_USERNAME"/feeds/led_toggle\r\n",
+				.p_cmd = (uint8_t *) "AT+NWMQTS=2,"ADAFRUIT_USERNAME"/feeds/led_toggle,"ADAFRUIT_USERNAME"/feeds/buzzer\r\n",
 				.p_success_resp[0] = (uint8_t *) "OK",
 				.max_resp_length = DA16200_STR_LEN_64,
 				.retry = DA16200_RETRY_VALUE_5,

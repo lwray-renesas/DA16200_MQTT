@@ -161,6 +161,19 @@ static fsp_err_t try_read_mqtt_msg(void)
 				R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 				status = FSP_SUCCESS;
 			}
+			else if(STRING_EXIST == is_str_present((const char *)mqtt_read_buf, "buzzer,1"))
+			{
+				/* Enable Buzzer*/
+				R_Config_PCLBUZ1_Start();
+				write_string_to_display("Success!");
+				R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
+				R_Config_PCLBUZ1_Stop();
+				status = FSP_SUCCESS;
+			}
+			else
+			{
+				/* Do Nothing*/
+			}
 		}
 		else if(Hal_oneshot_elapsed())
 		{
