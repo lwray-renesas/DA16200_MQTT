@@ -154,7 +154,7 @@ static fsp_err_t try_read_mqtt_msg(void)
 		{
 			/* Check if success response is present*/
 			total_count += Hal_uart_read((char *)&mqtt_read_buf[total_count]);
-			if(STRING_EXIST == is_str_present((const char *)mqtt_read_buf, "led_toggle,1"))
+			if(STRING_EXIST == is_str_present((const char *)mqtt_read_buf, "led,1"))
 			{
 				CCS0 ^= 0x01U; /* Toggle LED*/
 				write_string_to_display("Success!");

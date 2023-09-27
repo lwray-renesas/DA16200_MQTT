@@ -43,8 +43,8 @@
         <Setting id="Config_TAU0_0" value="CG"/>
         <Setting id="Config_UARTA0" value="CG"/>
         <Setting id="Config_DTC" value="CG"/>
-        <Setting id="r_bsp" value=""/>
         <Setting id="Config_INTC" value="CG"/>
+        <Setting id="r_bsp" value=""/>
         <Setting id="Config_CSI00" value="CG"/>
         <Setting id="Config_PORT" value="CG"/>
         <Setting id="Config_PCLBUZ1" value="CG"/>
